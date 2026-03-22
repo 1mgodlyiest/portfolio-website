@@ -38,7 +38,7 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <Badge variant="outline" className="mb-6 py-1.5 px-4 text-sm font-medium">
-            Manish Paneru | Data Analyst & AI Specialist
+            Manish Paneru | Founder | Data Analyst & AI Specialist
           </Badge>
         </motion.div>
 
