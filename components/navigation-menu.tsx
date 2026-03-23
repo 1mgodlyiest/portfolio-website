@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Home, Layers, BarChart, Briefcase, Mail } from "lucide-react"
+import { Menu, X, Home, Layers, BarChart, Briefcase, Mail, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
@@ -12,6 +12,7 @@ import { FloatingNavbar } from "@/components/ui/floating-navbar"
 const navItems = [
   { name: "Home", href: "/", icon: <Home className="h-4 w-4" /> },
   { name: "Projects", href: "/projects", icon: <Layers className="h-4 w-4" /> },
+  { name: "Blog", href: "/blog", icon: <BookOpen className="h-4 w-4" /> },
   { name: "Visualizations", href: "/visualizations", icon: <BarChart className="h-4 w-4" /> },
   { name: "Experience", href: "/experience", icon: <Briefcase className="h-4 w-4" /> },
   { name: "Contact", href: "/contact", icon: <Mail className="h-4 w-4" /> },
@@ -20,6 +21,7 @@ const navItems = [
 const floatingNavItems = [
   { name: "Home", link: "/", icon: <Home className="h-3.5 w-3.5" /> },
   { name: "Projects", link: "/projects", icon: <Layers className="h-3.5 w-3.5" /> },
+  { name: "Blog", link: "/blog", icon: <BookOpen className="h-3.5 w-3.5" /> },
   { name: "Visualizations", link: "/visualizations", icon: <BarChart className="h-3.5 w-3.5" /> },
   { name: "Experience", link: "/experience", icon: <Briefcase className="h-3.5 w-3.5" /> },
   { name: "Contact", link: "/contact", icon: <Mail className="h-3.5 w-3.5" /> },
