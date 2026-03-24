@@ -28,6 +28,17 @@ export default function BlogPage() {
               </CardContent>
             </Card>
           </Link>
+          <Link href="/blog/ai-human-collaboration">
+            <Card className="hover:border-primary transition-colors cursor-pointer">
+              <CardHeader>
+                <CardTitle>AI-Human Collaboration</CardTitle>
+                <CardDescription>Beyond Replacement: The Era of Amplification</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Why the future of work is not AI versus human, but human-led, AI-executed synergy.</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </main>
 
