@@ -44,11 +44,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </header>
           
           <article className="prose prose-invert prose-lg prose-primary max-w-none 
-            prose-headings:font-bold prose-headings:tracking-tighter 
-            prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl 
-            prose-p:text-neutral-300 prose-p:leading-relaxed 
+            prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tighter 
+            prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl 
+            prose-p:text-white prose-p:leading-loose prose-p:text-lg
+            prose-strong:text-white prose-strong:font-bold prose-em:text-neutral-300
+            prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-neutral-900/50 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-xl prose-blockquote:italic
             prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-            prose-strong:text-white prose-code:text-primary">
+            prose-code:text-primary">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {content}
             </ReactMarkdown>

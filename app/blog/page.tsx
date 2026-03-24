@@ -4,7 +4,6 @@ import { NavigationMenu } from "@/components/navigation-menu"
 import { Footer } from "@/components/footer"
 import { AnimatedCursor } from "@/components/animated-cursor"
 import { ScrollProgress } from "@/components/scroll-progress"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -54,30 +53,25 @@ export default function BlogPage() {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-12">
           {blogPosts.map((post, index) => (
             <motion.div
               key={post.slug}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, duration: 0.4 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
             >
               <Link href={`/blog/${post.slug}`}>
-                <Card className="group h-full bg-neutral-900/50 border-neutral-800 hover:border-primary/50 transition-all duration-500 overflow-hidden">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <Badge variant="outline" className="text-neutral-500 border-neutral-700">{post.date}</Badge>
-                    </div>
-                    <CardTitle className="text-2xl mt-4 group-hover:text-primary transition-colors">{post.title}</CardTitle>
-                    <CardDescription className="text-lg text-neutral-400">{post.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-neutral-500 leading-relaxed">{post.excerpt}</p>
-                    <div className="mt-6 text-primary font-medium text-sm flex items-center">
-                      Read more →
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="group border-b border-neutral-800 pb-12 hover:border-primary/50 transition-colors">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-medium text-primary tracking-widest uppercase">{post.date}</span>
+                  </div>
+                  <h2 className="text-4xl font-bold mb-4 group-hover:text-primary transition-colors text-white">{post.title}</h2>
+                  <p className="text-lg text-neutral-300 leading-relaxed max-w-2xl">{post.excerpt}</p>
+                  <div className="mt-6 font-semibold text-white group-hover:underline flex items-center">
+                    Read the research →
+                  </div>
+                </div>
               </Link>
             </motion.div>
           ))}
