@@ -4,7 +4,7 @@ import { NavigationMenu } from "@/components/navigation-menu"
 import { Footer } from "@/components/footer"
 import { AnimatedCursor } from "@/components/animated-cursor"
 import { ScrollProgress } from "@/components/scroll-progress"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import Link from "next/link"
 
 export default function BlogPage() {
@@ -17,14 +17,17 @@ export default function BlogPage() {
       <main className="container mx-auto py-24 px-6 min-h-[60vh]">
         <h1 className="text-4xl font-bold mb-8">Blog</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Coming Soon</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Stay tuned for updates on AI, Data Science, and Career growth.</p>
-            </CardContent>
-          </Card>
+          <Link href="/blog/the-agentic-turn">
+            <Card className="hover:border-primary transition-colors cursor-pointer">
+              <CardHeader>
+                <CardTitle>The Agentic Turn</CardTitle>
+                <CardDescription>From Chatbots to Digital Collaborators</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">An exploration of the shift from reactive conversational AI to autonomous, multi-agent frameworks.</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </main>
 
