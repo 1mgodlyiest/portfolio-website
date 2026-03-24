@@ -27,7 +27,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </Button>
           </div>
           
-          <article className="prose prose-invert prose-lg prose-primary max-w-none">
+          <article className="prose prose-invert prose-lg prose-primary max-w-none prose-headings:font-bold prose-h1:text-4xl prose-h2:text-3xl prose-p:leading-relaxed prose-a:text-primary">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {content}
             </ReactMarkdown>
