@@ -1,12 +1,13 @@
 import fs from "fs/promises";
 import path from "path";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 import { NavigationMenu } from "@/components/navigation-menu";
 import { Footer } from "@/components/footer";
-import { AnimatedCursor } from "@/components/animated-cursor";
-import { ScrollProgress } from "@/components/scroll-progress";
 
-// If you want to render markdown, you'd normally use react-markdown
-// For now, let's keep it simple and just show raw text or parse it lightly
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const { slug } = await params;
   const filePath = path.join(process.cwd(), "app", "blog", "posts", `${slug}.md`);
@@ -14,13 +15,22 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   try {
     const content = await fs.readFile(filePath, "utf-8");
     return (
-      <div className="relative min-h-screen">
-        <AnimatedCursor />
-        <ScrollProgress />
+      <div className="relative min-h-screen bg-background">
         <NavigationMenu />
-        <main className="container mx-auto py-24 px-6 max-w-3xl min-h-[60vh]">
-          <article className="prose prose-invert prose-lg max-w-none">
-            <pre className="whitespace-pre-wrap font-sans text-muted-foreground">{content}</pre>
+        <main className="container mx-auto py-32 px-6 max-w-3xl min-h-[60vh]">
+          <div className="mb-12">
+            <Button variant="ghost" className="mb-8 pl-0 hover:bg-transparent" asChild>
+              <Link href="/blog" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Blog
+              </Link>
+            </Button>
+          </div>
+          
+          <article className="prose prose-invert prose-lg prose-primary max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {content}
+            </ReactMarkdown>
           </article>
         </main>
         <Footer />
@@ -28,9 +38,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     );
   } catch (error) {
     return (
-      <div className="container mx-auto py-24 px-6 text-center">
-        <h1 className="text-2xl font-bold">Post not found</h1>
-        <p className="mt-4 text-muted-foreground">The post {slug} does not exist.</p>
+      <div className="container mx-auto py-32 px-6 text-center">
+        <h1 className="text-4xl font-bold mb-4">Post not found</h1>
+        <p className="text-muted-foreground mb-8">The requested post does not exist.</p>
+        <Button asChild>
+          <Link href="/blog">Back to Blog</Link>
+        </Button>
       </div>
     );
   }
