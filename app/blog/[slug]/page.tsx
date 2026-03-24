@@ -32,6 +32,15 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               {content}
             </ReactMarkdown>
           </article>
+          
+          <div className="mt-16 pt-8 border-t border-border">
+             <Button variant="outline" asChild>
+              <Link href="/blog" className="flex items-center">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Blog
+              </Link>
+            </Button>
+          </div>
         </main>
         <Footer />
       </div>
