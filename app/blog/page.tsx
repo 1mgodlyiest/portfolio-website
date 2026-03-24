@@ -39,6 +39,17 @@ export default function BlogPage() {
               </CardContent>
             </Card>
           </Link>
+          <Link href="/blog/reasoning-vs-memorization">
+            <Card className="hover:border-primary transition-colors cursor-pointer">
+              <CardHeader>
+                <CardTitle>Reasoning vs. Memorization</CardTitle>
+                <CardDescription>The Bottleneck of Modern AI</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Why linguistic fluency in LLMs is not the same as logical deduction, and why it matters.</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </main>
 
