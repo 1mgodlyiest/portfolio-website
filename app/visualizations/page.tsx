@@ -1,261 +1,106 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { NavigationMenu } from "@/components/navigation-menu"
-import { Footer } from "@/components/footer"
-import { ScrollProgress } from "@/components/scroll-progress"
-import { AnimatedCursor } from "@/components/animated-cursor"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Download } from "lucide-react"
+import type { Metadata } from "next"
 import Link from "next/link"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+import { PageHeader } from "@/components/page-header"
+import { dashboards } from "@/lib/content"
+
+export const metadata: Metadata = {
+  title: "Dashboards",
+  description:
+    "Live Streamlit dashboards — HR analytics, metropolitan economics, US census data, fraud detection and LaLiga football.",
+}
+
+const principles = [
+  "Filters and parameters that update in real time, not a screenshot of a chart",
+  "Responsive down to a phone, because half of these get opened in a meeting",
+  "Wired to APIs, databases and uploads rather than a frozen CSV",
+  "Custom components where an off-the-shelf chart would flatten the point",
+]
 
 export default function VisualizationsPage() {
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    // Simulate loading assets
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  }
-
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-background flex items-center justify-center">
-        <div className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-      </div>
-    )
-  }
-
   return (
-    <div className="relative min-h-screen">
-      <AnimatedCursor />
-      <ScrollProgress />
-      <NavigationMenu />
+    <>
+      <SiteHeader />
 
-      <main className="pt-24 pb-24 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
-            <Link href="/">
-              <Button variant="ghost" className="group mb-6">
-                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                Back to Home
-              </Button>
-            </Link>
+      <main>
+        <PageHeader
+          eyebrow="Dashboards"
+          title={
+            <>
+              Analysis you can <span className="italic text-primary">poke at.</span>
+            </>
+          }
+          intro="Five Streamlit applications, each built so a non-technical stakeholder can answer their own follow-up question instead of emailing me for it."
+          meta={`${dashboards.length} live apps · Streamlit`}
+        />
 
-            <div className="flex flex-col md:flex-row md:items-end justify-between">
-              <div>
-                <Badge variant="outline" className="mb-4">
-                  Data Visualization
-                </Badge>
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">Interactive Analytics</h1>
-                <p className="text-muted-foreground max-w-2xl">
-                  Transforming complex data into clear, actionable visualizations that tell compelling stories and drive
-                  decision-making.
-                </p>
-              </div>
-            </div>
+        <div className="shell mt-16">
+          <ul className="grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2">
+            {dashboards.map((item, i) => (
+              <li key={item.title} className="bg-background">
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-full flex-col p-8 transition-colors hover:bg-secondary/60 md:p-10"
+                >
+                  <div className="flex items-baseline justify-between">
+                    <span className="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-xs text-muted-foreground transition-transform duration-300 group-hover:translate-x-1">
+                      Open ↗
+                    </span>
+                  </div>
+
+                  <h2 className="mt-8 font-display text-[1.75rem] leading-tight tracking-tight md:text-3xl">
+                    <span className="link-draw">{item.title}</span>
+                  </h2>
+
+                  <p className="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-muted-foreground">{item.blurb}</p>
+
+                  <div className="mt-8 flex items-end justify-between gap-6 border-t border-border pt-5">
+                    <p className="font-mono text-[0.6875rem] uppercase tracking-wider text-muted-foreground/80">
+                      {item.tags.join(" · ")}
+                    </p>
+                    <p className="shrink-0 text-right">
+                      <span className="font-display text-3xl tracking-tight text-primary">{item.stat}</span>
+                      <span className="mt-1 block max-w-[10rem] text-xs leading-snug text-muted-foreground">
+                        {item.statLabel}
+                      </span>
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <section className="shell mt-24">
+          <div className="grid gap-10 border-t border-border pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] md:gap-16">
+            <h2 className="font-display text-3xl tracking-tight">What they all have in common</h2>
+            <ul className="space-y-4">
+              {principles.map((line) => (
+                <li key={line} className="flex gap-3 leading-relaxed text-muted-foreground">
+                  <span className="mt-[0.6rem] h-px w-4 shrink-0 bg-primary" aria-hidden />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <motion.div variants={containerVariants} initial="hidden" animate="visible">
-            <Tabs defaultValue="revenue" className="w-full">
-              <TabsList className="w-full max-w-md mx-auto grid grid-cols-3 mb-12">
-                <TabsTrigger value="revenue">Revenue Analysis</TabsTrigger>
-                <TabsTrigger value="customer">Customer Insights</TabsTrigger>
-                <TabsTrigger value="performance">Performance Metrics</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="revenue">
-                <motion.div variants={itemVariants}>
-                  <Card className="border-none bg-gradient-to-br from-card/50 to-card shadow-lg mb-8">
-                    <CardHeader>
-                      <CardTitle>Streamlit Visualization Projects</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-4">
-                          <h3 className="text-xl font-medium">Executive HR Insights</h3>
-                          <p className="text-muted-foreground">
-                            Interactive Streamlit dashboard for HR executives to analyze employee data and workforce
-                            trends. Visualizes key metrics like turnover rates, department performance, and recruitment
-                            efficiency.
-                          </p>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            <Badge variant="secondary">Streamlit</Badge>
-                            <Badge variant="secondary">HR Analytics</Badge>
-                            <Badge variant="secondary">Data Visualization</Badge>
-                          </div>
-                          <Button size="sm" className="mt-2" asChild>
-                            <Link href="https://hrvisualization.streamlit.app/" target="_blank">
-                              View Project
-                            </Link>
-                          </Button>
-                        </div>
-
-                        <div className="space-y-4">
-                          <h3 className="text-xl font-medium">LaLiga Dashboard Analysis</h3>
-                          <p className="text-muted-foreground">
-                            Comprehensive Streamlit visualization of LaLiga football statistics and team performance
-                            metrics. Features interactive comparisons of player stats, team rankings, and match
-                            outcomes.
-                          </p>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            <Badge variant="secondary">Streamlit</Badge>
-                            <Badge variant="secondary">Sports Analytics</Badge>
-                            <Badge variant="secondary">Interactive Dashboard</Badge>
-                          </div>
-                          <Button size="sm" className="mt-2" asChild>
-                            <Link href="https://laliga-viz.streamlit.app/" target="_blank">
-                              View Project
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </TabsContent>
-
-              <TabsContent value="customer">
-                <motion.div variants={itemVariants}>
-                  <Card className="border-none bg-gradient-to-br from-card/50 to-card shadow-lg mb-8">
-                    <CardHeader>
-                      <CardTitle>Economic Analysis Visualizations</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-4">
-                          <h3 className="text-xl font-medium">Global Metropolitan Economics Analysis</h3>
-                          <p className="text-muted-foreground">
-                            Streamlit-powered exploration of economic indicators across major global metropolitan areas.
-                            Features interactive maps, comparative charts, and trend analysis of economic growth
-                            patterns.
-                          </p>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            <Badge variant="secondary">Streamlit</Badge>
-                            <Badge variant="secondary">Economic Analysis</Badge>
-                            <Badge variant="secondary">Geospatial Visualization</Badge>
-                          </div>
-                          <Button size="sm" className="mt-2" asChild>
-                            <Link href="https://metropolitan-gdp-analysis.streamlit.app/" target="_blank">
-                              View Project
-                            </Link>
-                          </Button>
-                        </div>
-
-                        <div className="space-y-4">
-                          <h3 className="text-xl font-medium">US Census Economics Analysis</h3>
-                          <p className="text-muted-foreground">
-                            Interactive Streamlit dashboard visualizing US census data with economic insights and
-                            demographic trends. Provides detailed breakdowns by state, county, and demographic groups.
-                          </p>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            <Badge variant="secondary">Streamlit</Badge>
-                            <Badge variant="secondary">Census Data</Badge>
-                            <Badge variant="secondary">Economic Indicators</Badge>
-                          </div>
-                          <Button size="sm" className="mt-2" asChild>
-                            <Link href="https://uscensuseconomic.streamlit.app/" target="_blank">
-                              View Project
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </TabsContent>
-
-              <TabsContent value="performance">
-                <motion.div variants={itemVariants}>
-                  <Card className="border-none bg-gradient-to-br from-card/50 to-card shadow-lg mb-8">
-                    <CardHeader>
-                      <CardTitle>Financial Analysis Visualization</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6">
-                      <div className="space-y-6">
-                        <div className="space-y-4">
-                          <h3 className="text-xl font-medium">Financial Modeling: Credit Card Fraud Detection</h3>
-                          <p className="text-muted-foreground">
-                            Streamlit application for visualizing credit card fraud patterns and detection model
-                            performance. Features interactive dashboards showing transaction patterns, anomaly
-                            detection, and model accuracy metrics. Users can explore different detection algorithms and
-                            their effectiveness on various fraud scenarios.
-                          </p>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            <Badge variant="secondary">Streamlit</Badge>
-                            <Badge variant="secondary">Financial Analysis</Badge>
-                            <Badge variant="secondary">Fraud Detection</Badge>
-                            <Badge variant="secondary">Machine Learning</Badge>
-                          </div>
-                          <Button size="sm" className="mt-4" asChild>
-                            <Link href="https://frauddetectionmodeling.streamlit.app/" target="_blank">
-                              View Project
-                            </Link>
-                          </Button>
-                        </div>
-
-                        <div className="mt-8 pt-8 border-t border-border/10">
-                          <h3 className="text-xl font-medium mb-4">Key Features of Streamlit Visualizations</h3>
-                          <ul className="space-y-2">
-                            <li className="flex items-start">
-                              <span className="text-primary mr-2">•</span>
-                              <span>
-                                Interactive data exploration with real-time filtering and parameter adjustments
-                              </span>
-                            </li>
-                            <li className="flex items-start">
-                              <span className="text-primary mr-2">•</span>
-                              <span>Responsive visualizations that adapt to different screen sizes and devices</span>
-                            </li>
-                            <li className="flex items-start">
-                              <span className="text-primary mr-2">•</span>
-                              <span>
-                                Integration with various data sources including APIs, databases, and file uploads
-                              </span>
-                            </li>
-                            <li className="flex items-start">
-                              <span className="text-primary mr-2">•</span>
-                              <span>Custom visualization components for specialized data representation needs</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </TabsContent>
-            </Tabs>
-          </motion.div>
-        </div>
+          <div className="mt-16 border-t border-border pt-10">
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm text-background transition-colors hover:bg-primary"
+            >
+              See the underlying projects
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+        </section>
       </main>
 
-      <Footer />
-    </div>
+      <SiteFooter />
+    </>
   )
 }

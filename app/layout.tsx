@@ -1,54 +1,54 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Space_Grotesk as SpaceGrotesk } from "next/font/google"
+import { Inter, Instrument_Serif as InstrumentSerif } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { MotionProvider } from "@/components/motion-provider"
+import { site } from "@/lib/content"
 
-const spaceGrotesk = SpaceGrotesk({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-sans",
+  display: "swap",
+})
+
+const instrumentSerif = InstrumentSerif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "Manish Paneru | Data Analysis & AI Portfolio",
+  title: {
+    default: `${site.name} — ${site.role}`,
+    template: `%s — ${site.name}`,
+  },
   description:
-    "A cutting-edge portfolio showcasing Manish Paneru's advanced data analysis, AI solutions, and machine learning expertise",
-  keywords: "data analysis, AI, machine learning, portfolio, data visualization, Manish Paneru",
-  authors: [{ name: "Manish Paneru" }],
-  creator: "Manish Paneru",
+    "Manish Paneru turns messy data into decisions — analysis, machine learning and AI agents for teams that need an answer, not a dashboard.",
+  keywords: ["data analysis", "AI agents", "machine learning", "data visualization", "Manish Paneru"],
+  authors: [{ name: site.name }],
+  creator: site.name,
   icons: {
     icon: "/images/my-avatar.png",
     apple: "/images/my-avatar.png",
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_AU",
     url: "/",
-    title: "Manish Paneru | Data Analysis & AI Portfolio",
-    description: "A cutting-edge portfolio showcasing advanced data analysis and AI expertise",
-    siteName: "Manish Paneru Portfolio",
+    title: `${site.name} — ${site.role}`,
+    description: "Analysis, machine learning and AI agents. Selected work, writing and case studies.",
+    siteName: `${site.name} Portfolio`,
   },
-    generator: 'v0.dev'
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${spaceGrotesk.variable} font-sans antialiased bg-gradient-to-b from-background to-background/80`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <MotionProvider>{children}</MotionProvider>
-        </ThemeProvider>
+    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
+      <body className="grain bg-background font-sans text-foreground">
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   )
 }
-
-
-import './globals.css'

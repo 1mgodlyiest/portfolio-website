@@ -4,26 +4,35 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-    --radius: 0.75rem;
+    /* Paper-and-clay palette. Warm cream ground, near-black ink, terracotta accent. */
+    --background: 48 33% 97%; /* #FAF9F5 */
+    --foreground: 60 3% 8%; /* #141413 */
+
+    --card: 48 33% 97%;
+    --card-foreground: 60 3% 8%;
+    --popover: 48 33% 97%;
+    --popover-foreground: 60 3% 8%;
+
+    --primary: 15 56% 52%; /* #C96442 clay */
+    --primary-foreground: 48 33% 97%;
+
+    --secondary: 48 25% 92%; /* #F0EEE6 */
+    --secondary-foreground: 60 3% 8%;
+
+    --muted: 48 25% 92%;
+    --muted-foreground: 48 5% 40%; /* #6C6A62 */
+
+    --accent: 48 25% 92%;
+    --accent-foreground: 60 3% 8%;
+
+    --destructive: 0 55% 42%;
+    --destructive-foreground: 48 33% 97%;
+
+    --border: 46 19% 87%; /* #E4E1D7 */
+    --input: 46 19% 87%;
+    --ring: 15 56% 52%;
+
+    --radius: 0.25rem;
   }
 }
 
@@ -34,20 +43,229 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
 
   ::selection {
-    @apply bg-primary/30 text-foreground;
+    @apply bg-primary/20 text-foreground;
+  }
+
+  /* Serif display face for headlines */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer components {
+  /* Small caps eyebrow used above section headings */
+  .eyebrow {
+    @apply font-sans text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-muted-foreground;
+  }
+
+  /* Editorial link: hairline underline that thickens on hover */
+  .link-underline {
+    @apply relative inline-block;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.25s ease;
+  }
+
+  .link-underline:hover {
+    background-size: 100% 2px;
+  }
+
+  /* Link that draws its underline in from the left */
+  .link-draw {
+    @apply relative inline-block;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.3s ease;
+  }
+
+  .link-draw:hover {
+    background-size: 100% 1px;
+  }
+
+  .shell {
+    @apply mx-auto w-full max-w-[84rem] px-6 sm:px-8 lg:px-12;
+  }
+
+  .shell-narrow {
+    @apply mx-auto w-full max-w-3xl px-6 sm:px-8;
+  }
+
+  /* Subtle paper grain, kept almost invisible */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
   }
 }
 
 @layer utilities {
-  .bg-gradient-radial {
-    background-image: radial-gradient(var(--tw-gradient-stops));
+  .text-balance {
+    text-wrap: balance;
   }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Fluid editorial display sizes */
+  .display-xl {
+    font-size: clamp(3rem, 11vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+
+  .display-lg {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+  }
+
+  .display-md {
+    font-size: clamp(1.875rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  .hairline {
+    @apply border-t border-border;
+  }
+}
+
+/* Long-form article typography (blog posts) */
+.article {
+  @apply text-[1.0625rem] leading-[1.75] text-foreground/85;
+}
+
+.article > * + * {
+  margin-top: 1.4em;
+}
+
+.article h1,
+.article h2,
+.article h3 {
+  font-family: var(--font-display), Georgia, serif;
+  @apply text-foreground;
+  letter-spacing: -0.02em;
+}
+
+.article h1 {
+  @apply text-4xl md:text-5xl;
+  margin-top: 2.2em;
+}
+
+.article h2 {
+  @apply text-[1.75rem] md:text-[2rem];
+  margin-top: 2em;
+  padding-top: 1.6rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.article h3 {
+  @apply text-xl md:text-2xl;
+  margin-top: 1.8em;
+}
+
+.article h2 + *,
+.article h3 + * {
+  margin-top: 0.8em;
+}
+
+.article strong {
+  @apply font-semibold text-foreground;
+}
+
+.article em {
+  font-style: italic;
+}
+
+.article a {
+  @apply text-primary link-underline;
+}
+
+.article ul,
+.article ol {
+  @apply pl-5;
+}
+
+.article ul {
+  list-style: none;
+}
+
+.article ul > li {
+  position: relative;
+  padding-left: 1.1em;
+}
+
+.article ul > li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  @apply text-primary;
+}
+
+.article ol {
+  list-style: decimal;
+}
+
+.article li + li {
+  margin-top: 0.5em;
+}
+
+.article blockquote {
+  @apply border-l-2 border-primary pl-6 font-display text-xl italic text-foreground md:text-2xl;
+}
+
+.article hr {
+  @apply my-12 border-border;
+}
+
+.article code {
+  @apply rounded bg-secondary px-1.5 py-0.5 font-mono text-[0.875em] text-foreground;
+}
+
+.article pre {
+  @apply overflow-x-auto rounded-md bg-foreground p-5 text-background;
+}
+
+.article pre code {
+  @apply bg-transparent p-0 text-background;
+}
+
+.article table {
+  @apply w-full border-collapse text-left text-[0.9375rem];
+}
+
+.article th,
+.article td {
+  @apply border-b border-border px-3 py-2.5;
+}
+
+.article th {
+  @apply eyebrow;
+}
+
+.article img {
+  @apply w-full rounded-md;
 }
